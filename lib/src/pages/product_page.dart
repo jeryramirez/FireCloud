@@ -17,6 +17,12 @@ class _ProductPageState extends State<ProductPage> {
 
   @override
   Widget build(BuildContext context) {
+    final ProductModel productData = ModalRoute.of(context).settings.arguments;
+
+    if (productData != null) {
+      product = productData;
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: Text('Product'),
@@ -88,7 +94,11 @@ class _ProductPageState extends State<ProductPage> {
     //ejecuta la funcion save de todos los TextFormField con dicha propiedad
     formKey.currentState.save();
 
-    productsProvider.createProduct(product);
+    if (product.id == null) {
+      productsProvider.createProduct(product);
+    } else {
+      productsProvider.editProduct(product);
+    }
   }
 
   Widget _available() {

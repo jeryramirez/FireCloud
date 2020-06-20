@@ -16,9 +16,9 @@ class MyApp extends StatelessWidget {
         title: 'Material App',
         initialRoute: 'home',
         routes: {
-          'home' : (BuildContext context) => HomePage(),
-          'login' : (BuildContext context) => LogInPage(),
-          'product': (BuildContext context) => ProductPage(),
+          'login' : (BuildContext context)  => LogInPage(),
+          'home' : (BuildContext context)   => HomePage(),
+          'product': (BuildContext context) => ProductPage()
         },
         
       ),

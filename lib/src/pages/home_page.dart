@@ -4,7 +4,7 @@ import 'package:formvalidation/src/models/product_model.dart';
 import 'package:formvalidation/src/providers/products_provider.dart';
 
 class HomePage extends StatelessWidget {
-  ProductsProvider _productsProvider = new ProductsProvider();
+  final ProductsProvider _productsProvider = new ProductsProvider();
 
   @override
   Widget build(BuildContext context) {
@@ -58,7 +58,7 @@ class HomePage extends StatelessWidget {
       child: ListTile(
         title: Text('${product.title} - ${product.price}'),
         subtitle: Text(product.id),
-        onTap: () => Navigator.pushNamed(context, 'product'),
+        onTap: () => Navigator.pushNamed(context, 'product', arguments: product),
       ),
     );
   }
