@@ -32,14 +32,31 @@ class HomePage extends StatelessWidget {
       builder:
           (BuildContext context, AsyncSnapshot<List<ProductModel>> snapshot) {
         if (snapshot.hasData) {
-          print(snapshot.data);
-          return Container();
+          final products = snapshot.data;
+
+          return ListView.builder(
+              itemCount: products.length,
+              itemBuilder: (context, i) => _item(context, products[i]));
         } else {
           return Center(
             child: CircularProgressIndicator(),
           );
         }
       },
+    );
+  }
+
+  Widget _item(BuildContext context, ProductModel product) {
+    return Dismissible(
+      key: UniqueKey(),
+      background: Container( color: Colors.redAccent,),
+      onDismissed: (direcction) {},
+      child: ListTile(
+        title: Text('${ product.title } - ${ product.price }'),
+        subtitle: Text(product.id),
+        onTap: () => Navigator.pushNamed(context, 'product'),
+
+      ),
     );
   }
 }

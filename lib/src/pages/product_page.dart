@@ -89,12 +89,7 @@ class _ProductPageState extends State<ProductPage> {
     formKey.currentState.save();
 
     productsProvider.createProduct(product);
-    productsProvider.getProducts();
 
-    // print('all ok');
-
-    // print(product.title);
-    // print(product.price);
   }
 
   Widget _available() {
