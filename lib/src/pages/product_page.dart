@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:formvalidation/src/models/product_model.dart';
+import 'package:formvalidation/src/providers/products_provider.dart';
 import 'package:formvalidation/src/utils/utils.dart';
 
 class ProductPage extends StatefulWidget {
@@ -11,6 +12,8 @@ class _ProductPageState extends State<ProductPage> {
   final formKey = GlobalKey<FormState>();
 
   ProductModel product = new ProductModel();
+
+  ProductsProvider productsProvider = new ProductsProvider();
 
   @override
   Widget build(BuildContext context) {
@@ -79,16 +82,18 @@ class _ProductPageState extends State<ProductPage> {
     );
   }
 
-  void _submit() {
+  void _submit() async {
     if (!formKey.currentState.validate()) return;
 
     //ejecuta la funcion save de todos los TextFormField con dicha propiedad
     formKey.currentState.save();
 
-    print('all ok');
+    await productsProvider.createProduct(product);
 
-    print(product.title);
-    print(product.price);
+    // print('all ok');
+
+    // print(product.title);
+    // print(product.price);
   }
 
   Widget _available() {
