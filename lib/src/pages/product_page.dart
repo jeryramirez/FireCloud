@@ -42,7 +42,7 @@ class _ProductPageState extends State<ProductPage> {
           ),
           IconButton(
             icon: Icon(Icons.camera_alt),
-            onPressed: () {},
+            onPressed: _takePicture,
           )
         ],
       ),
@@ -142,7 +142,7 @@ class _ProductPageState extends State<ProductPage> {
       return Container();
     } else {
       return Image(
-        image: AssetImage( photo?.path ?? 'assets/no-image.png'),
+        image: AssetImage(photo?.path ?? 'assets/no-image.png'),
         height: 300.0,
         fit: BoxFit.cover,
       );
@@ -155,4 +155,9 @@ class _ProductPageState extends State<ProductPage> {
     if (photo != null) {}
     setState(() {});
   }
+
+  _takePicture() async{
+    photo = await ImagePicker.pickImage(source: ImageSource.camera);
+  }
+
 }
