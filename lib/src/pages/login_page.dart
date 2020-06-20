@@ -145,7 +145,7 @@ class LogInPage extends StatelessWidget {
     return StreamBuilder(
       stream: bloc.passwordStream,
       builder: (BuildContext context, AsyncSnapshot snapshot){
-        print(snapshot.data);
+
         return Container(
 
           margin: EdgeInsets.symmetric(vertical:20),
@@ -193,9 +193,9 @@ class LogInPage extends StatelessWidget {
   }
 
   logIn(BuildContext context, LogInBloc bloc) {
-    print(bloc.email);
+    //print(bloc.email);
     
-    print(bloc.password);
+    //print(bloc.password);
     Navigator.pushReplacementNamed(context, 'home');
 
   }

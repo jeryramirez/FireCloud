@@ -82,13 +82,14 @@ class _ProductPageState extends State<ProductPage> {
     );
   }
 
-  void _submit() async {
+  void _submit() {
     if (!formKey.currentState.validate()) return;
 
     //ejecuta la funcion save de todos los TextFormField con dicha propiedad
     formKey.currentState.save();
 
-    await productsProvider.createProduct(product);
+    productsProvider.createProduct(product);
+    productsProvider.getProducts();
 
     // print('all ok');
 
