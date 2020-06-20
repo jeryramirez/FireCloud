@@ -1,7 +1,10 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:formvalidation/src/models/product_model.dart';
 import 'package:http/http.dart' as http;
+import 'package:mime_type/mime_type.dart';
+import 'package:http_parser/http_parser.dart';
 
 class ProductsProvider {
   final String _url = 'https://firegram-5ecf3.firebaseio.com';
@@ -44,5 +47,34 @@ class ProductsProvider {
     await http.delete(url);
 
     return 1;
+  }
+
+  Future<String> uploadImage(File image) async {
+    final url = Uri.parse(
+        'https://api.cloudinary.com/v1_1/oshin/image/upload?upload_preset=rjtfkaa8');
+
+    final mimeType = mime(image.path).split('/');
+
+    final imageUploadRequest = http.MultipartRequest('POST', url);
+
+    final file = await http.MultipartFile.fromPath('file', image.path,
+        contentType: MediaType(mimeType[0], mimeType[1]));
+
+    imageUploadRequest.files.add(file);
+
+    final streamResponse = await imageUploadRequest.send();
+
+    final resp = await http.Response.fromStream(streamResponse);
+
+    if (resp.statusCode != 200 && resp.statusCode != 201) {
+      print('***** some error *****');
+      print(resp.body);
+      return null;
+    }
+
+    final respData = json.decode(resp.body);
+    print(respData);
+
+    return respData['source_url'];
   }
 }
