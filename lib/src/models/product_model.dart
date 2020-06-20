@@ -15,7 +15,7 @@ class ProductModel {
       this.title  = '',
       this.price  = 0.0,
       this.available = true,
-      this.photoUrl,
+      this.photoUrl
     }
   );
 

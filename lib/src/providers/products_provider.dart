@@ -50,15 +50,16 @@ class ProductsProvider {
   }
 
   Future<String> uploadImage(File image) async {
-    final url = Uri.parse(
-        'https://api.cloudinary.com/v1_1/oshin/image/upload?upload_preset=rjtfkaa8');
+    final url = Uri.parse('https://api.cloudinary.com/v1_1/oshin/image/upload?upload_preset=rjtfkaa8');
 
     final mimeType = mime(image.path).split('/');
 
     final imageUploadRequest = http.MultipartRequest('POST', url);
 
-    final file = await http.MultipartFile.fromPath('file', image.path,
-        contentType: MediaType(mimeType[0], mimeType[1]));
+    final file = await http.MultipartFile.fromPath(
+      'file', 
+      image.path,
+      contentType: MediaType(mimeType[0], mimeType[1]));
 
     imageUploadRequest.files.add(file);
 
@@ -75,6 +76,6 @@ class ProductsProvider {
     final respData = json.decode(resp.body);
     print(respData);
 
-    return respData['source_url'];
+    return respData['secure_url'];
   }
 }

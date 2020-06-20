@@ -98,13 +98,20 @@ class _ProductPageState extends State<ProductPage> {
     );
   }
 
-  void _submit() {
+  void _submit() async {
     if (!formKey.currentState.validate()) return;
 
     //ejecuta la funcion save de todos los TextFormField con dicha propiedad
     formKey.currentState.save();
 
-    setState(() => _saving = true);
+    setState(() {
+      _saving = true;
+    });
+
+    if (photo != null) {
+      product.photoUrl = await productsProvider.uploadImage(photo);
+      print(product.photoUrl);
+    }
 
     if (product.id == null) {
       productsProvider.createProduct(product);
@@ -139,7 +146,12 @@ class _ProductPageState extends State<ProductPage> {
 
   Widget _showPhoto() {
     if (product.photoUrl != null) {
-      return Container();
+      return FadeInImage(
+        image: NetworkImage(product.photoUrl),
+        placeholder: AssetImage('assets/loading.gif'),
+        height: 300.0,
+        fit: BoxFit.contain,
+      );
     } else {
       return Image(
         image: AssetImage(photo?.path ?? 'assets/no-image.png'),
@@ -152,12 +164,17 @@ class _ProductPageState extends State<ProductPage> {
   _sellecctPicture() async {
     print('ok');
     photo = await ImagePicker.pickImage(source: ImageSource.gallery);
-    if (photo != null) {}
+    if (photo != null) {
+      product.photoUrl = null;
+    }
     setState(() {});
   }
 
-  _takePicture() async{
+  _takePicture() async {
     photo = await ImagePicker.pickImage(source: ImageSource.camera);
+    if (photo != null) {
+      product.photoUrl = null;
+    }
+    setState(() {});
   }
-
 }
