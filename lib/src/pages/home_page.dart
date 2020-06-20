@@ -49,13 +49,16 @@ class HomePage extends StatelessWidget {
   Widget _item(BuildContext context, ProductModel product) {
     return Dismissible(
       key: UniqueKey(),
-      background: Container( color: Colors.redAccent,),
-      onDismissed: (direcction) {},
+      background: Container(
+        color: Colors.redAccent,
+      ),
+      onDismissed: (direcction) {
+        _productsProvider.deleteProduct(product.id);
+      },
       child: ListTile(
-        title: Text('${ product.title } - ${ product.price }'),
+        title: Text('${product.title} - ${product.price}'),
         subtitle: Text(product.id),
         onTap: () => Navigator.pushNamed(context, 'product'),
-
       ),
     );
   }
