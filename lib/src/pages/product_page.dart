@@ -10,6 +10,9 @@ class ProductPage extends StatefulWidget {
 
 class _ProductPageState extends State<ProductPage> {
   final formKey = GlobalKey<FormState>();
+  final scaffoldKey = GlobalKey<ScaffoldState>();
+
+  bool _saving = false;
 
   ProductModel product = new ProductModel();
 
@@ -24,6 +27,7 @@ class _ProductPageState extends State<ProductPage> {
     }
 
     return Scaffold(
+      key: scaffoldKey,
       appBar: AppBar(
         title: Text('Product'),
         actions: <Widget>[
@@ -84,7 +88,7 @@ class _ProductPageState extends State<ProductPage> {
       textColor: Colors.white,
       label: Text('Save'),
       icon: Icon(Icons.save),
-      onPressed: _submit,
+      onPressed: (_saving) ? null : _submit,
     );
   }
 
@@ -94,11 +98,18 @@ class _ProductPageState extends State<ProductPage> {
     //ejecuta la funcion save de todos los TextFormField con dicha propiedad
     formKey.currentState.save();
 
+    setState(() => _saving = true);
+
     if (product.id == null) {
       productsProvider.createProduct(product);
     } else {
       productsProvider.editProduct(product);
     }
+
+    // setState(() => _saving = false );
+    showSnackbar('saved');
+
+    Navigator.pop(context);
   }
 
   Widget _available() {
@@ -109,5 +120,14 @@ class _ProductPageState extends State<ProductPage> {
         product.available = value;
       }),
     );
+  }
+
+  void showSnackbar(String message) {
+    final snackbar = SnackBar(
+      content: Text(message),
+      duration: Duration(milliseconds: 2000),
+    );
+
+    scaffoldKey.currentState.showSnackBar(snackbar);
   }
 }
