@@ -1,7 +1,10 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:formvalidation/src/models/product_model.dart';
 import 'package:formvalidation/src/providers/products_provider.dart';
 import 'package:formvalidation/src/utils/utils.dart';
+import 'package:image_picker/image_picker.dart';
 
 class ProductPage extends StatefulWidget {
   @override
@@ -13,6 +16,8 @@ class _ProductPageState extends State<ProductPage> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   bool _saving = false;
+
+  File photo;
 
   ProductModel product = new ProductModel();
 
@@ -33,7 +38,7 @@ class _ProductPageState extends State<ProductPage> {
         actions: <Widget>[
           IconButton(
             icon: Icon(Icons.photo_size_select_actual),
-            onPressed: () {},
+            onPressed: _sellecctPicture,
           ),
           IconButton(
             icon: Icon(Icons.camera_alt),
@@ -48,6 +53,7 @@ class _ProductPageState extends State<ProductPage> {
             key: formKey,
             child: Column(
               children: <Widget>[
+                _showPhoto(),
                 _productName(),
                 _productPrice(),
                 _available(),
@@ -129,5 +135,24 @@ class _ProductPageState extends State<ProductPage> {
     );
 
     scaffoldKey.currentState.showSnackBar(snackbar);
+  }
+
+  Widget _showPhoto() {
+    if (product.photoUrl != null) {
+      return Container();
+    } else {
+      return Image(
+        image: AssetImage( photo?.path ?? 'assets/no-image.png'),
+        height: 300.0,
+        fit: BoxFit.cover,
+      );
+    }
+  }
+
+  _sellecctPicture() async {
+    print('ok');
+    photo = await ImagePicker.pickImage(source: ImageSource.gallery);
+    if (photo != null) {}
+    setState(() {});
   }
 }
